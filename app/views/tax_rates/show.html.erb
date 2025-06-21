@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @tax_rate %>
+
+<div>
+  <%= link_to "Edit this tax rate", edit_tax_rate_path(@tax_rate) %> |
+  <%= link_to "Back to tax rates", tax_rates_path %>
+
+  <%= button_to "Destroy this tax rate", @tax_rate, method: :delete %>
+</div>

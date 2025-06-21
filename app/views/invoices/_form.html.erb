@@ -1,0 +1,36 @@
+<%= form_with(model: invoice, local: true) do |f| %>
+  <% if invoice.errors.any? %>
+    <div class="alert alert-danger">
+      <h4><%= pluralize(invoice.errors.count, "error") %> impiden guardar la factura:</h4>
+      <ul><%= invoice.errors.full_messages.map { |msg| content_tag(:li, msg) }.join.html_safe %></ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= f.label :client_id, "Client" %>
+    <%= f.collection_select :client_id, Client.all, :id, :name, prompt: "Select a client", class: "form-select" %>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col">
+      <%= f.hidden_field :number %>
+    </div>
+    <div class="col">
+      <%= f.label :issued_at, "Issue date" %>
+      <%= f.date_field :issued_at, class: "form-control" %>
+    </div>
+  </div>
+
+  <h5>Invoice lines</h5>
+  <%= f.fields_for :invoice_items do |item| %>
+    <%= render "invoice_item_fields", f: item %>
+  <% end %>
+
+  <div>
+    <%= link_to_add_association "Add line", f, :invoice_items, class: "btn btn-secondary mb-3" %>
+  </div>
+
+  <div>
+    <%= f.submit class: "btn btn-primary" %>
+  </div>
+<% end %>

@@ -1,0 +1,12 @@
+<% content_for :title, "Editing Tax Rate" %>
+
+<h1>Editing tax rate</h1>
+
+<%= render "form", tax_rate: @tax_rate %>
+
+<br>
+
+<div>
+  <%= link_to "Show this tax rate", @tax_rate %> |
+  <%= link_to "Back to tax rates", tax_rates_path %>
+</div>
