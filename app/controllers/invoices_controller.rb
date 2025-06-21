@@ -68,16 +68,8 @@ class InvoicesController < ApplicationController
   # Parámetros permitidos para create/update
   def invoice_params
     params.require(:invoice).permit(
-      :client_id,
-      :issued_at,
-      invoice_items_attributes: [
-        :id,
-        :product_id,
-        :tax_rate_id,
-        :quantity,
-        :unit_price,
-        :_destroy
-      ]
+      :client_id, :issued_at, :number, :tax_rate_id,
+      invoice_items_attributes: [:id, :product_id, :quantity, :unit_price, :_destroy]
     )
   end
 end

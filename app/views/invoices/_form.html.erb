@@ -21,13 +21,20 @@
     </div>
   </div>
 
-  <h5>Invoice lines</h5>
-  <%= f.fields_for :invoice_items do |item| %>
-    <%= render "invoice_item_fields", f: item %>
-  <% end %>
+  <div class="mb-3">
+    <%= f.label :tax_rate_id, "Tax Rate" %>
+    <%= f.collection_select :tax_rate_id, TaxRate.all, :id, :name, prompt: "Select a tax rate", class: "form-select" %>
+  </div>
+
+  <h4>Invoice lines</h4>
+  <div id="invoice-items">
+    <%= f.fields_for :invoice_items do |item_form| %>
+      <%= render 'invoice_item_fields', f: item_form %>
+    <% end %>
+  </div>
 
   <div>
-    <%= link_to_add_association "Add line", f, :invoice_items, class: "btn btn-secondary mb-3" %>
+    <a href="#" id="add-line">Add line</a>
   </div>
 
   <div>

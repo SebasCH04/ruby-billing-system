@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_20_031300) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_21_230903) do
   create_table "clients", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -23,14 +23,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_031300) do
   create_table "invoice_items", force: :cascade do |t|
     t.integer "invoice_id", null: false
     t.integer "product_id", null: false
-    t.integer "tax_rate_id", null: false
     t.integer "quantity"
     t.decimal "unit_price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["invoice_id"], name: "index_invoice_items_on_invoice_id"
     t.index ["product_id"], name: "index_invoice_items_on_product_id"
-    t.index ["tax_rate_id"], name: "index_invoice_items_on_tax_rate_id"
   end
 
   create_table "invoices", force: :cascade do |t|
@@ -42,6 +40,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_031300) do
     t.decimal "total", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tax_rate_id"
     t.index ["client_id"], name: "index_invoices_on_client_id"
   end
 
@@ -53,6 +52,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_031300) do
     t.integer "reorder_threshold"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "stock"
   end
 
   create_table "stock_movements", force: :cascade do |t|
@@ -74,7 +74,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_20_031300) do
 
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "invoice_items", "products"
-  add_foreign_key "invoice_items", "tax_rates"
   add_foreign_key "invoices", "clients"
   add_foreign_key "stock_movements", "products"
 end

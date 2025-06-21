@@ -1,8 +1,35 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @invoice %>
+<h1>Invoice</h1>
 
+<p><strong>Client:</strong> <%= @invoice.client.try(:name) %></p>
+<p><strong>Number:</strong> <%= @invoice.number %></p>
+<p><strong>Issued at:</strong> <%= @invoice.issued_at %></p>
 
+<h2>Invoice lines</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unit Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @invoice.invoice_items.each do |item| %>
+      <tr>
+        <td><%= item.product.try(:name) %></td>
+        <td><%= item.quantity %></td>
+        <td><%= number_to_currency(item.unit_price) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<p><strong>Subtotal:</strong> <%= number_to_currency(@invoice.subtotal) %></p>
+<p><strong>Tax Rate:</strong> <%= @invoice.tax_rate&.name %> (<%= @invoice.tax_rate&.rate %>)</p>
+<p><strong>Tax total:</strong> <%= number_to_currency(@invoice.tax_total) %></p>
+<p><strong>Total:</strong> <%= number_to_currency(@invoice.total) %></p>
 
 <div>
   <%= link_to "Edit this invoice", edit_invoice_path(@invoice) %> |

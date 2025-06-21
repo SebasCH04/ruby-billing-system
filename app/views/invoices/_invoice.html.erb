@@ -1,7 +1,7 @@
 <div id="<%= dom_id invoice %>">
   <p>
     <strong>Client:</strong>
-    <%= invoice.client_id %>
+    <%= invoice.client.try(:name) %>
   </p>
 
   <p>
