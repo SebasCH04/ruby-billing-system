@@ -59,3 +59,5 @@ group :development do
 end
 
 gem "cocoon"
+gem "prawn"
+gem 'prawn-table'

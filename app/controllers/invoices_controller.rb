@@ -7,8 +7,18 @@ class InvoicesController < ApplicationController
   end
 
   # GET /invoices/1
-  def show
+ def show
+  respond_to do |format|
+    format.html
+    format.pdf do
+      pdf = InvoicePdf.new(@invoice)
+      send_data pdf.render,
+                filename: "Factura-#{@invoice.number}.pdf",
+                type: "application/pdf",
+                disposition: "inline"  # o "attachment" para forzar descarga
+    end
   end
+end
 
   # GET /invoices/new
   def new

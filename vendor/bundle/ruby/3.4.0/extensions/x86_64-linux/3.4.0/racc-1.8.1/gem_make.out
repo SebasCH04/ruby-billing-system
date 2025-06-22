@@ -1,0 +1,18 @@
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+/home/isaac/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-ai8cqa sitelibdir\=./.gem.20250621-48510-ai8cqa clean
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-ai8cqa sitelibdir\=./.gem.20250621-48510-ai8cqa
+compiling cparse.c
+linking shared-object racc/cparse.so
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-ai8cqa sitelibdir\=./.gem.20250621-48510-ai8cqa install
+/usr/bin/install -c -m 0755 cparse.so ./.gem.20250621-48510-ai8cqa/racc
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-ai8cqa sitelibdir\=./.gem.20250621-48510-ai8cqa clean

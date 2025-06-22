@@ -15,6 +15,10 @@
     <%= render invoice %>
     <p>
       <%= link_to "Show", invoice %>
+      <%= link_to "Descargar PDF",
+            invoice_path(invoice, format: :pdf),
+            class: "btn btn-primary",
+            target: "_blank" %>
     </p>
   <% end %>
 </div>

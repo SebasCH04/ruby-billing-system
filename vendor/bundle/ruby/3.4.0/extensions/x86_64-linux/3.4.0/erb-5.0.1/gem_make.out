@@ -1,0 +1,18 @@
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/erb-5.0.1/ext/erb/escape
+/home/isaac/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/erb-5.0.1/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-tihykq sitelibdir\=./.gem.20250621-48510-tihykq clean
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/erb-5.0.1/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-tihykq sitelibdir\=./.gem.20250621-48510-tihykq
+compiling escape.c
+linking shared-object erb/escape.so
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/erb-5.0.1/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-tihykq sitelibdir\=./.gem.20250621-48510-tihykq install
+/usr/bin/install -c -m 0755 escape.so ./.gem.20250621-48510-tihykq/erb
+
+current directory: /home/isaac/projects/ruby-billing-system/vendor/bundle/ruby/3.4.0/gems/erb-5.0.1/ext/erb/escape
+make DESTDIR\= sitearchdir\=./.gem.20250621-48510-tihykq sitelibdir\=./.gem.20250621-48510-tihykq clean
