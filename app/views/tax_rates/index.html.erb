@@ -4,6 +4,12 @@
 
 <h1>Tax Rates</h1>
 
+<div style="margin-bottom: 1em;">
+  <%= link_to "Back to Products", products_path, class: "btn btn-secondary" %>
+</div>
+
+<%= link_to "New Tax Rate", new_tax_rate_path %>
+
 <div id="tax_rates">
   <% @tax_rates.each do |tax_rate| %>
     <%= render tax_rate %>
@@ -12,5 +18,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "New Tax Rate", new_tax_rate_path %>

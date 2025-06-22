@@ -4,6 +4,12 @@
 
 <h1>Invoices</h1>
 
+<div style="margin-bottom: 1em;">
+  <%= link_to "Back to Products", products_path, class: "btn btn-secondary" %>
+</div>
+
+<%= link_to "New Invoice", new_invoice_path %>
+
 <div id="invoices">
   <% @invoices.each do |invoice| %>
     <%= render invoice %>
@@ -12,5 +18,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "New Invoice", new_invoice_path %>

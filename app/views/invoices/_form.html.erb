@@ -1,13 +1,13 @@
 <%= form_with(model: invoice, local: true) do |f| %>
   <% if invoice.errors.any? %>
     <div class="alert alert-danger">
-      <h4><%= pluralize(invoice.errors.count, "error") %> impiden guardar la factura:</h4>
+      <h4><%= pluralize(invoice.errors.count, "error") %> prohibited this invoice from being saved:</h4>
       <ul><%= invoice.errors.full_messages.map { |msg| content_tag(:li, msg) }.join.html_safe %></ul>
     </div>
   <% end %>
 
   <div class="mb-3">
-    <%= f.label :client_id, "Client" %>
+    <%= f.label :client_id, "Client:" %>
     <%= f.collection_select :client_id, Client.all, :id, :name, prompt: "Select a client", class: "form-select" %>
   </div>
 
@@ -16,13 +16,13 @@
       <%= f.hidden_field :number %>
     </div>
     <div class="col">
-      <%= f.label :issued_at, "Issue date" %>
+      <%= f.label :issued_at, "Issue date:" %>
       <%= f.date_field :issued_at, class: "form-control" %>
     </div>
   </div>
 
   <div class="mb-3">
-    <%= f.label :tax_rate_id, "Tax Rate" %>
+    <%= f.label :tax_rate_id, "Tax Rate:" %>
     <%= f.collection_select :tax_rate_id, TaxRate.all, :id, :name, prompt: "Select a tax rate", class: "form-select" %>
   </div>
 
@@ -41,3 +41,21 @@
     <%= f.submit class: "btn btn-primary" %>
   </div>
 <% end %>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.addEventListener("click", function(e) {
+    if (e.target && e.target.classList.contains("delete-line")) {
+      e.preventDefault();
+      const itemFields = e.target.closest(".invoice-item-fields");
+      if (itemFields) {
+        //si hay mas de una linea, permite borrar; si solo queda una, no borra
+        const allLines = document.querySelectorAll(".invoice-item-fields");
+        if (allLines.length > 1) {
+          itemFields.remove();
+        }
+      }
+    }
+  });
+});
+</script>

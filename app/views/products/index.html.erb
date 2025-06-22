@@ -4,7 +4,11 @@
 
 <h1>Products</h1>
 
-<%= link_to "Add Product", new_product_path, class: "btn btn-primary mb-3" %>
+<div style="margin-bottom: 1.5em;">
+  <%= link_to "Show/Create Invoices", invoices_path, class: "btn btn-primary" %>
+  <%= link_to "Change Tax Rates", tax_rates_path, class: "btn btn-secondary" %>
+  <%= link_to "Manage Clients", clients_path, class: "btn btn-secondary" %>
+</div>
 
 <table class="table">
   <thead>
@@ -24,7 +28,8 @@
         <td>
           <%= product.name %>
           <% if product.stock_quantity < product.reorder_threshold %>
-            <span class="badge bg-warning text-dark">Low stock!</span>
+            <br>
+            <span style="color: red; font-weight: bold;">--- Low Stock! ---</span>
           <% end %>
         </td>
         <td><%= product.sku %></td>
@@ -34,7 +39,7 @@
         <td><%= link_to 'Show', product, class: "btn btn-sm btn-info" %></td>
         <td><%= link_to 'Edit', edit_product_path(product), class: "btn btn-sm btn-warning" %></td>
         <td>
-          <%= link_to 'Destroy', product,
+          <%= link_to 'Delete', product,
                       method: :delete,
                       data: { confirm: 'Are you sure?' },
                       class: "btn btn-sm btn-danger" %>
@@ -43,3 +48,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to "Add Product", new_product_path, class: "btn btn-primary mb-3" %>

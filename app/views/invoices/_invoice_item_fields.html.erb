@@ -1,7 +1,7 @@
 <div class="invoice-item-fields">
   <div class="row g-2 align-items-end mb-2">
     <div class="col">
-      <%= f.label :product_id, "Product" %>
+      <%= f.label :product_id, "Product:" %>
       <%= f.select :product_id,
         options_for_select(
           Product.all.map { |p| [ p.name, p.id, { "data-price" => p.price } ] },
@@ -13,23 +13,26 @@
     </div>
 
     <div class="col">
-      <%= f.label :quantity, "Quantity" %>
+      <%= f.label :quantity, "Quantity:" %>
       <%= f.number_field :quantity, class: "form-control" %>
     </div>
 
     <div class="col">
-      <%= f.label :unit_price, "Unit Price" %>
+      <%= f.label :unit_price, "Unit Price:" %>
       <%= f.number_field :unit_price,
                          class: "form-control unit-price",
                          step: "0.01",
                          readonly: true %>
     </div>
 
+    <div class="col-auto">
+      <a href="#" class="delete-line" style="color: #0d6efd; text-decoration: underline;">Delete line</a>
+    </div>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
-      // Función para actualizar el unit price
+      //funcion para actualizar el unit price
       function updateUnitPrice(select) {
         const selectedOption = select.options[select.selectedIndex];
         const price = selectedOption.getAttribute("data-price");
@@ -44,19 +47,19 @@
         }
       }
 
-      // Delegación de eventos para selects existentes y futuros
+      //delegacion de eventos para selects existentes y futuros
       document.addEventListener('change', function(e) {
         if (e.target && e.target.classList.contains('product-select')) {
           updateUnitPrice(e.target);
         }
       });
 
-      // Inicializa los unit price de los selects existentes
+      //inicializa los unit price de los selects existentes
       document.querySelectorAll('.product-select').forEach(function(select) {
         updateUnitPrice(select);
       });
 
-      // Script para agregar nuevas líneas
+      //script para agregar nuevas lineas
       const addLineBtn = document.getElementById("add-line");
       const invoiceItemsDiv = document.getElementById("invoice-items");
 
@@ -69,23 +72,34 @@
 
           const newFields = lastFields.cloneNode(true);
 
-          // Limpia los valores de los inputs/clases
+          //limpia los valores de los inputs/clases
           newFields.querySelectorAll("input, select").forEach(function(input) {
             if (input.type === "number" || input.type === "text") input.value = "";
             if (input.tagName === "SELECT") input.selectedIndex = 0;
           });
 
-          // Cambia los índices en los nombres de los campos para que sean únicos
+          //cambia los indices en los nombres de los campos para que sean unicos
           const time = new Date().getTime();
           newFields.innerHTML = newFields.innerHTML.replace(/\[\d+\]/g, `[${time}]`);
 
           invoiceItemsDiv.appendChild(newFields);
 
-          // Actualiza el unit price del nuevo select
+          //atualiza el unit price del nuevo select
           const newProductSelect = newFields.querySelector('.product-select');
           if (newProductSelect) updateUnitPrice(newProductSelect);
         });
       }
+
+      //script para eliminar lineas
+      document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList.contains('delete-line')) {
+          e.preventDefault();
+          const row = e.target.closest('.row');
+          if (row) {
+            row.remove();
+          }
+        }
+      });
     });
   </script>
 </div>

@@ -4,6 +4,12 @@
 
 <h1>Clients</h1>
 
+<div style="margin-bottom: 1em;">
+  <%= link_to "Back to Products", products_path, class: "btn btn-secondary" %>
+</div>
+
+<%= link_to "New Client", new_client_path %>
+
 <div id="clients">
   <% @clients.each do |client| %>
     <%= render client %>
@@ -12,5 +18,3 @@
     </p>
   <% end %>
 </div>
-
-<%= link_to "New Client", new_client_path %>
