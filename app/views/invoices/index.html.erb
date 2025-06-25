@@ -13,37 +13,32 @@
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
+    padding: 20px;
   }
 
   .modern-container {
     max-width: 1200px;
-    margin: 20px auto;
-    background: white;
+    margin: 0 auto;
+    background: #2a2a2a;
     border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     overflow: hidden;
   }
 
-  .modern-header {
-    background: white;
-    padding: 30px 40px;
-    border-bottom: 1px solid #e5e7eb;
+  .modern-content {
+    padding: 40px;
+  }
+
+  .page-title {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 600;
+    margin-bottom: 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
-  }
-
-  .modern-header h1 {
-    color: #1f2937;
-    font-size: 28px;
-    font-weight: 600;
-    margin: 0;
-  }
-
-  .modern-content {
-    padding: 40px;
   }
 
   .modern-secondary-actions {
@@ -84,12 +79,12 @@
   }
 
   .btn-secondary {
-    background: #6b7280;
+    background: #4a5568;
     color: white;
   }
 
   .btn-secondary:hover {
-    background: #4b5563;
+    background: #2d3748;
     color: white;
   }
 
@@ -136,22 +131,22 @@
   }
 
   .invoice-card {
-    background: white;
-    border: 1px solid #e5e7eb;
+    background: #3a3a3a;
+    border: 1px solid #4a4a4a;
     border-radius: 12px;
     padding: 24px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
   }
 
   .invoice-card:hover {
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
     transform: translateY(-2px);
   }
 
   .invoice-header {
     display: flex;
-    justify-content: between;
+    justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 16px;
     gap: 16px;
@@ -160,26 +155,30 @@
   .invoice-number {
     font-size: 18px;
     font-weight: 700;
-    color: #1f2937;
+    color: #ffffff;
     margin-bottom: 4px;
   }
 
   .invoice-date {
     font-size: 14px;
-    color: #6b7280;
+    color: #a0a0a0;
   }
 
   .invoice-amount {
     font-size: 20px;
     font-weight: 600;
-    color: #059669;
+    color: #10b981;
     text-align: right;
   }
 
   .invoice-details {
     margin: 16px 0;
     font-size: 14px;
-    color: #374151;
+    color: #d0d0d0;
+  }
+
+  .invoice-details strong {
+    color: #ffffff;
   }
 
   .invoice-actions {
@@ -196,25 +195,39 @@
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-top: 8px;
+    display: inline-block;
   }
 
   .status-paid {
-    background: #d1fae5;
-    color: #065f46;
+    background: #065f46;
+    color: #10b981;
   }
 
   .status-pending {
-    background: #fef3c7;
-    color: #92400e;
+    background: #92400e;
+    color: #fbbf24;
   }
 
   .status-overdue {
-    background: #fee2e2;
-    color: #991b1b;
+    background: #991b1b;
+    color: #f87171;
+  }
+
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 60px 20px;
+    color: #a0a0a0;
+  }
+
+  .empty-state h3 {
+    margin-bottom: 8px;
+    color: #ffffff;
   }
 
   @media (max-width: 768px) {
-    .modern-header {
+    .page-title {
       flex-direction: column;
       text-align: center;
     }
@@ -243,14 +256,14 @@
 </style>
 
 <div class="modern-container">
-  <div class="modern-header">
-    <h1>Invoice Management Software</h1>
-    <%= link_to "+ New Invoice", new_invoice_path, class: "btn btn-success" %>
-  </div>
-
   <div class="modern-content">
+    <div class="page-title">
+      <span>Invoice Management Software</span>
+      <%= link_to "+ New Invoice", new_invoice_path, class: "btn btn-success" %>
+    </div>
+
     <div class="modern-secondary-actions">
-      <%= link_to "🔙 Back to Products", products_path, class: "btn btn-secondary" %>
+      <%= link_to "🏠 Back to Products", products_path, class: "btn btn-secondary" %>
     </div>
 
     <div class="modern-invoices-grid" id="invoices">
@@ -295,8 +308,8 @@
           </div>
         <% end %>
       <% else %>
-        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: #6b7280;">
-          <h3 style="margin-bottom: 8px; color: #374151;">No invoices found</h3>
+        <div class="empty-state">
+          <h3>No invoices found</h3>
           <p>Create your first invoice to get started.</p>
           <%= link_to "Create Invoice", new_invoice_path, class: "btn btn-success", style: "margin-top: 16px;" %>
         </div>

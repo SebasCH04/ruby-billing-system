@@ -2,19 +2,280 @@
 
 <% content_for :title, "Clients" %>
 
-<h1>Clients</h1>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-<div style="margin-bottom: 1em;">
-  <%= link_to "Back to Products", products_path, class: "btn btn-secondary" %>
-</div>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+  }
 
-<%= link_to "New Client", new_client_path %>
+  .modern-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
 
-<div id="clients">
-  <% @clients.each do |client| %>
-    <%= render client %>
-    <p>
-      <%= link_to "Show", client %>
-    </p>
-  <% end %>
+  .modern-header {
+    background: white;
+    padding: 30px 40px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .modern-header h1 {
+    color: #1f2937;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .modern-content {
+    padding: 40px;
+  }
+
+  .modern-secondary-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-secondary {
+    background: #6b7280;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #4b5563;
+    color: white;
+  }
+
+  .btn-success {
+    background: #10b981;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background: #059669;
+    color: white;
+  }
+
+  .btn-info {
+    background: #06b6d4;
+    color: white;
+  }
+
+  .btn-info:hover {
+    background: #0891b2;
+    color: white;
+  }
+
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #dc2626;
+    color: white;
+  }
+
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .modern-table-container {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+  }
+
+  .table thead {
+    background: #f8fafc;
+  }
+
+  .table th {
+    padding: 16px 20px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+  }
+
+  .table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+  }
+
+  .table tbody tr:hover {
+    background: #f9fafb;
+  }
+
+  .table td {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #374151;
+    border: none;
+  }
+
+  .table .text-center {
+    text-align: center;
+  }
+
+  .table .text-end {
+    text-align: right;
+  }
+
+  .modern-actions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .client-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+  }
+
+  .client-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .client-card h3 {
+    color: #1f2937;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+  }
+
+  .client-info {
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .client-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .modern-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .modern-secondary-actions {
+      flex-direction: column;
+    }
+
+    .modern-content {
+      padding: 20px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .table {
+      min-width: 600px;
+    }
+  }
+</style>
+
+<div class="modern-container">
+  <div class="modern-header">
+    <h1>Client Management</h1>
+    <%= link_to "+ Add Client", new_client_path, class: "btn btn-success" %>
+  </div>
+
+  <div class="modern-content">
+    <div class="modern-secondary-actions">
+      <%= link_to "🏠 Back to Products", products_path, class: "btn btn-secondary" %>
+    </div>
+
+    <div id="clients">
+      <% if @clients && @clients.any? %>
+        <% @clients.each do |client| %>
+          <div class="client-card">
+            <%= render client %>
+            <div class="client-actions">
+              <%= link_to "View Details", client, class: "btn btn-info btn-sm" %>
+              <%= link_to "Edit", edit_client_path(client), class: "btn btn-success btn-sm" %>
+              <%= link_to "Delete", client_path(client), method: :delete, 
+                          confirm: "Are you sure you want to delete this client?", 
+                          class: "btn btn-danger btn-sm" %>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="modern-table-container">
+          <div style="text-align: center; padding: 60px 20px; color: #6b7280;">
+            <h3 style="margin-bottom: 8px; color: #374151;">No clients found</h3>
+            <p>Add your first client to get started.</p>
+            <%= link_to "Add Your First Client", new_client_path, class: "btn btn-success" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
