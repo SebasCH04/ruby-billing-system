@@ -1,52 +1,312 @@
-<p style="color: green"><%= notice %></p>
-
 <% content_for :title, "Products" %>
 
-<h1>Products</h1>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-<div style="margin-bottom: 1.5em;">
-  <%= link_to "Show/Create Invoices", invoices_path, class: "btn btn-primary" %>
-  <%= link_to "Change Tax Rates", tax_rates_path, class: "btn btn-secondary" %>
-  <%= link_to "Manage Clients", clients_path, class: "btn btn-secondary" %>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+  }
+
+  .modern-container {
+    max-width: 1200px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .modern-header {
+    background: white;
+    padding: 30px 40px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .modern-header h2 {
+    color: #1f2937;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .modern-content {
+    padding: 40px;
+  }
+
+  .modern-secondary-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-secondary {
+    background: #6b7280;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #4b5563;
+    color: white;
+  }
+
+  .btn-success {
+    background: #10b981;
+    color: white;
+  }
+
+  .btn-success:hover {
+    background: #059669;
+    color: white;
+  }
+
+  .btn-info {
+    background: #06b6d4;
+    color: white;
+  }
+
+  .btn-info:hover {
+    background: #0891b2;
+    color: white;
+  }
+
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #dc2626;
+    color: white;
+  }
+
+  .btn-sm {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .modern-table-container {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+  }
+
+  .table thead {
+    background: #f8fafc;
+  }
+
+  .table th {
+    padding: 16px 20px;
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: none;
+  }
+
+  .table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+  }
+
+  .table tbody tr:hover {
+    background: #f9fafb;
+  }
+
+  .table tbody tr.table-danger {
+    background: #fef2f2;
+  }
+
+  .table tbody tr.table-danger:hover {
+    background: #fecaca;
+  }
+
+  .table td {
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #374151;
+    border: none;
+  }
+
+  .table .text-center {
+    text-align: center;
+  }
+
+  .table .text-end {
+    text-align: right;
+  }
+
+  .badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .bg-success {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .bg-danger {
+    background: #fee2e2;
+    color: #991b1b;
+  }
+
+  .modern-actions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+  }
+
+  .modern-price {
+    font-weight: 600;
+    color: #059669;
+  }
+
+  .modern-sku {
+    font-family: 'Courier New', monospace;
+    background: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 768px) {
+    .modern-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .modern-secondary-actions {
+      flex-direction: column;
+    }
+
+    .modern-content {
+      padding: 20px;
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+
+    .table {
+      min-width: 600px;
+    }
+  }
+</style>
+
+<div class="modern-container">
+  <div class="modern-header">
+    <h2>Product Management Software</h2>
+    <%= button_to "+ Add Product", new_product_path, method: :get, class: "btn btn-success" %>
+  </div>
+
+  <div class="modern-content">
+    <div class="modern-secondary-actions">
+      <%= button_to "📄 Show/Create Invoices", invoices_path, method: :get, class: "btn btn-primary" %>
+      <%= button_to "💰 Change Tax Rates", tax_rates_path, method: :get, class: "btn btn-secondary" %>
+      <%= button_to "👥 Manage Clients", clients_path, method: :get, class: "btn btn-secondary" %>
+    </div>
+
+    <div class="modern-table-container">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>SKU</th>
+              <th class="text-end">Price</th>
+              <th class="text-center">Stock</th>
+              <th class="text-center">Status</th>
+              <th class="text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if @products.any? %>
+              <% @products.each do |product| %>
+                <% low = product.stock_quantity < product.reorder_threshold %>
+                <tr class="<%= low ? 'table-danger' : '' %>">
+                  <td><%= product.name %></td>
+                  <td><span class="modern-sku"><%= product.sku %></span></td>
+                  <td class="text-end"><span class="modern-price"><%= number_to_currency(product.price) %></span></td>
+                  <td class="text-center"><%= product.stock_quantity %></td>
+                  <td class="text-center">
+                    <span class="badge <%= low ? 'bg-danger' : 'bg-success' %>">
+                      <%= low ? 'Low Stock' : 'In Stock' %>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <div class="modern-actions">
+                      <%= button_to "Edit", edit_product_path(product), method: :get, class: "btn btn-success btn-sm" %>
+                      <%= button_to "Details", product_path(product), method: :get, class: "btn btn-info btn-sm" %>
+                      <%= button_to "Delete", product_path(product), method: :get, class: "btn btn-info btn-sm" %>
+                    </div>
+                  </td>
+                </tr>
+              <% end %>
+            <% else %>
+              <tr>
+                <td colspan="6" style="text-align: center; padding: 60px 20px; color: #6b7280;">
+                  <h3 style="margin-bottom: 8px; color: #374151;">No products found</h3>
+                  <p>Add your first product to get started.</p>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
-
-<table class="table">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>SKU</th>
-      <th>Price</th>
-      <th>Stock</th>
-      <th>Threshold</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @products.each do |product| %>
-      <% row_class = product.stock_quantity < product.reorder_threshold ? "table-danger" : "" %>
-      <tr class="<%= row_class %>">
-        <td>
-          <%= product.name %>
-          <% if product.stock_quantity < product.reorder_threshold %>
-            <br>
-            <span style="color: red; font-weight: bold;">--- Low Stock! ---</span>
-          <% end %>
-        </td>
-        <td><%= product.sku %></td>
-        <td><%= number_to_currency(product.price) %></td>
-        <td><%= product.stock_quantity %></td>
-        <td><%= product.reorder_threshold %></td>
-        <td><%= link_to 'Show', product, class: "btn btn-sm btn-info" %></td>
-        <td><%= link_to 'Edit', edit_product_path(product), class: "btn btn-sm btn-warning" %></td>
-        <td>
-          <%= link_to 'Delete', product,
-                      method: :delete,
-                      data: { confirm: 'Are you sure?' },
-                      class: "btn btn-sm btn-danger" %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<%= link_to "Add Product", new_product_path, class: "btn btn-primary mb-3" %>
