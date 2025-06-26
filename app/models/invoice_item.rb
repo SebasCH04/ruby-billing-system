@@ -1,10 +1,8 @@
 class InvoiceItem < ApplicationRecord
   belongs_to :invoice
   belongs_to :product
-  belongs_to :tax_rate
 
   validates :product_id,
-            :tax_rate_id,
             :quantity,
             :unit_price,
             presence: true

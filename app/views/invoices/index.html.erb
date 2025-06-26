@@ -19,7 +19,7 @@
   .modern-container {
     max-width: 1200px;
     margin: 0 auto;
-    background: #2a2a2a;
+    background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
     overflow: hidden;
@@ -29,16 +29,22 @@
     padding: 40px;
   }
 
-  .page-title {
-    color: #ffffff;
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 30px;
+  .modern-header {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-bottom: 1px solid #e5e7eb;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     gap: 20px;
+  }
+
+  .modern-header h2 {
+    color: #1f2937;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
   }
 
   .modern-secondary-actions {
@@ -79,12 +85,12 @@
   }
 
   .btn-secondary {
-    background: #4a5568;
+    background: #6b7280;
     color: white;
   }
 
   .btn-secondary:hover {
-    background: #2d3748;
+    background: #4b5563;
     color: white;
   }
 
@@ -256,64 +262,62 @@
 </style>
 
 <div class="modern-container">
-  <div class="modern-content">
-    <div class="page-title">
-      <span>Invoice Management Software</span>
+  <div class="modern-header">
+      <h2>Invoice Management</h2>
       <%= link_to "+ New Invoice", new_invoice_path, class: "btn btn-success" %>
-    </div>
-
+  </div>
+  <div class="modern-content">
     <div class="modern-secondary-actions">
-      <%= link_to "🏠 Back to Products", products_path, class: "btn btn-secondary" %>
+        <%= link_to "🏠 Back to Products", products_path, class: "btn btn-secondary" %>
     </div>
-
-    <div class="modern-invoices-grid" id="invoices">
-      <% if @invoices.any? %>
-        <% @invoices.each do |invoice| %>
-          <div class="invoice-card">
-            <div class="invoice-header">
-              <div>
-                <div class="invoice-number">Invoice #<%= invoice.id %></div>
-                <div class="invoice-date">
-                  <%= invoice.created_at.strftime("%B %d, %Y") if invoice.created_at %>
+      <div class="modern-invoices-grid" id="invoices">
+        <% if @invoices.any? %>
+          <% @invoices.each do |invoice| %>
+            <div class="invoice-card">
+              <div class="invoice-header">
+                <div>
+                  <div class="invoice-number">Invoice #<%= invoice.id %></div>
+                  <div class="invoice-date">
+                    <%= invoice.created_at.strftime("%B %d, %Y") if invoice.created_at %>
+                  </div>
+                </div>
+                <div class="invoice-amount">
+                  <%= number_to_currency(invoice.total) if invoice.respond_to?(:total) %>
                 </div>
               </div>
-              <div class="invoice-amount">
-                <%= number_to_currency(invoice.total) if invoice.respond_to?(:total) %>
+
+              <div class="invoice-details">
+                <% if invoice.respond_to?(:client) && invoice.client %>
+                <% end %>
+                <% if invoice.respond_to?(:status) %>
+                  <span class="status-badge status-<%= invoice.status&.downcase || 'pending' %>">
+                    <%= invoice.status || 'Pending' %>
+                  </span>
+                <% end %>
+              </div>
+
+              <%= render invoice %>
+
+              <div class="invoice-actions">
+                <%= link_to "👁️ Show", invoice, class: "btn btn-info btn-sm" %>
+                <%= link_to "📄 Download PDF", 
+                      invoice_path(invoice, format: :pdf),
+                      class: "btn btn-primary btn-sm",
+                      target: "_blank" %>
+                <% if invoice.respond_to?(:editable?) && invoice.editable? %>
+                  <%= link_to "✏️ Edit", edit_invoice_path(invoice), class: "btn btn-success btn-sm" %>
+                <% end %>
               </div>
             </div>
-
-            <div class="invoice-details">
-              <% if invoice.respond_to?(:client) && invoice.client %>
-                <strong>Client:</strong> <%= invoice.client.name %><br>
-              <% end %>
-              <% if invoice.respond_to?(:status) %>
-                <span class="status-badge status-<%= invoice.status&.downcase || 'pending' %>">
-                  <%= invoice.status || 'Pending' %>
-                </span>
-              <% end %>
-            </div>
-
-            <%= render invoice %>
-
-            <div class="invoice-actions">
-              <%= link_to "👁️ Show", invoice, class: "btn btn-info btn-sm" %>
-              <%= link_to "📄 Download PDF", 
-                    invoice_path(invoice, format: :pdf),
-                    class: "btn btn-primary btn-sm",
-                    target: "_blank" %>
-              <% if invoice.respond_to?(:editable?) && invoice.editable? %>
-                <%= link_to "✏️ Edit", edit_invoice_path(invoice), class: "btn btn-success btn-sm" %>
-              <% end %>
-            </div>
+          <% end %>
+        <% else %>
+          <div class="empty-state">
+            <h3>No invoices found</h3>
+            <p>Create your first invoice to get started.</p>
+            <%= link_to "Create Invoice", new_invoice_path, class: "btn btn-success", style: "margin-top: 16px;" %>
           </div>
         <% end %>
-      <% else %>
-        <div class="empty-state">
-          <h3>No invoices found</h3>
-          <p>Create your first invoice to get started.</p>
-          <%= link_to "Create Invoice", new_invoice_path, class: "btn btn-success", style: "margin-top: 16px;" %>
-        </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

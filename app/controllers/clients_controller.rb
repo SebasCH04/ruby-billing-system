@@ -49,11 +49,11 @@ class ClientsController < ApplicationController
 
   # DELETE /clients/1 or /clients/1.json
   def destroy
-    @client.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to clients_path, status: :see_other, notice: "Client was successfully destroyed." }
-      format.json { head :no_content }
+    if @client.invoices.exists?
+      redirect_to clients_path, alert: "Cannot delete client: it is used by one or more invoices."
+    else
+      @client.destroy
+      redirect_to clients_path, notice: "Client was successfully destroyed."
     end
   end
 

@@ -40,7 +40,7 @@ def line_items_table
   data = @invoice.invoice_items.map do |item|
     subtotal = item.quantity * item.unit_price
     # si no hay tax_rate, asumimos tasa 0
-    rate    = item.tax_rate&.rate.to_f
+    rate = item.invoice.tax_rate&.rate.to_f
     tax     = subtotal * rate
 
     [

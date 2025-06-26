@@ -160,7 +160,7 @@
 
 <div class="modern-container">
   <div class="modern-header">
-    <h2>Product Management Software</h2>
+    <h2>Product Management</h2>
     <%= link_to "+ Add Product", new_product_path, class: "btn btn-success" %>
   </div>
 
@@ -180,7 +180,6 @@
               <th>SKU</th>
               <th class="text-end">Price</th>
               <th class="text-center">Stock</th>
-              <th class="text-center">Threshold</th>
               <th class="text-center">Status</th>
               <th class="text-center">Actions</th>
             </tr>
@@ -195,7 +194,6 @@
                   <%= number_to_currency(product.price) %>
                 </td>
                 <td class="text-center"><%= product.stock_quantity %></td>
-                <td class="text-center"><%= product.reorder_threshold %></td>
                 <td class="text-center">
                   <span class="badge <%= low ? 'bg-danger' : 'bg-success' %>">
                     <%= low ? 'Low Stock' : 'In Stock' %>

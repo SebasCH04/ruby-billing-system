@@ -49,11 +49,11 @@ class TaxRatesController < ApplicationController
 
   # DELETE /tax_rates/1 or /tax_rates/1.json
   def destroy
-    @tax_rate.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to tax_rates_path, status: :see_other, notice: "Tax rate was successfully destroyed." }
-      format.json { head :no_content }
+    if @tax_rate.invoices.exists?
+      redirect_to tax_rates_path, alert: "Cannot delete tax rate: it is used by one or more invoices."
+    else
+      @tax_rate.destroy
+      redirect_to tax_rates_path, notice: "Tax rate was successfully destroyed."
     end
   end
 

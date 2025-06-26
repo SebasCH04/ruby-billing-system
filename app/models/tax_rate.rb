@@ -1,6 +1,6 @@
 class TaxRate < ApplicationRecord
   #relaciones
-  has_many :invoice_items, dependent: :restrict_with_error
+  has_many :invoices, dependent: :restrict_with_error
 
   #validaciones
   validates :name, presence: true
