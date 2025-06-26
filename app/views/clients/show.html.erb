@@ -1,12 +1,392 @@
+<% content_for :title, @client.name || "Client Details" %>
+
 <p style="color: green"><%= notice %></p>
 
-<h1>Client</h1>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 1px;
+    min-height: 100vh;
+  }
 
-<%= render @client %>
+  .modern-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
 
-<div>
-  <%= link_to "Edit this client", edit_client_path(@client) %> |
-  <%= link_to "Back to clients", clients_path %>
+  .modern-header {
+    background: white;
+    padding: 30px 40px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 
-  <%= button_to "Destroy this client", @client, method: :delete %>
+  .modern-header h2 {
+    color: #1f2937;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .modern-content {
+    padding: 40px;
+  }
+
+  .client-info-section {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    color: #1f2937;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+  }
+
+  .empty-state h3 {
+    color: #374151;
+    margin-bottom: 8px;
+  }
+
+  .client-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .detail-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+  }
+
+  .detail-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .detail-label {
+    font-size: 12px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .detail-value {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 18px;
+    word-break: break-word;
+  }
+
+  .detail-value.email {
+    color: #3b82f6;
+    text-decoration: none;
+  }
+
+  .detail-value.email:hover {
+    text-decoration: underline;
+  }
+
+  .detail-value.phone {
+    color: #10b981;
+  }
+
+  .detail-value.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .detail-value.status.active {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .detail-value.status.inactive {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .detail-item.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-secondary {
+    background: #6b7280;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #4b5563;
+    color: white;
+  }
+
+  .btn-warning {
+    background: #f59e0b;
+    color: white;
+  }
+
+  .btn-warning:hover {
+    background: #d97706;
+    color: white;
+  }
+
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #dc2626;
+    color: white;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 30px 40px;
+    background: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .notes-section {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .notes-text {
+    color: #374151;
+    line-height: 1.6;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .modern-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .modern-content {
+      padding: 20px;
+    }
+
+    .client-info-section,
+    .notes-section {
+      padding: 20px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .action-buttons .btn {
+      width: 100%;
+      max-width: 300px;
+      justify-content: center;
+    }
+
+    .client-details {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="modern-container">
+  <div class="modern-header">
+    <h2>👤 Client Details</h2>
+  </div>
+
+  <div class="modern-content">
+    <!-- Client Information Section -->
+    <div class="client-info-section">
+      <div class="section-title">
+        📋 Client Information
+      </div>
+      
+      <div class="client-details">
+        <div class="detail-item">
+          <div class="detail-label">Name</div>
+          <div class="detail-value">
+            <%= @client.name || 'Unnamed Client' %>
+          </div>
+        </div>
+
+        <% if @client.respond_to?(:email) %>
+        <div class="detail-item">
+          <div class="detail-label">Email</div>
+          <div class="detail-value">
+            <% if @client.email.present? %>
+              <a href="mailto:<%= @client.email %>" class="detail-value email">
+                <%= @client.email %>
+              </a>
+            <% else %>
+              N/A
+            <% end %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @client.respond_to?(:phone) %>
+        <div class="detail-item">
+          <div class="detail-label">Phone</div>
+          <div class="detail-value phone">
+            <%= @client.phone || 'N/A' %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @client.respond_to?(:company) %>
+        <div class="detail-item">
+          <div class="detail-label">Company</div>
+          <div class="detail-value">
+            <%= @client.company || 'N/A' %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @client.respond_to?(:active) %>
+        <div class="detail-item">
+          <div class="detail-label">Status</div>
+          <div class="detail-value status <%= @client.active? ? 'active' : 'inactive' %>">
+            <% if @client.active? %>
+              ✅ Active
+            <% else %>
+              ❌ Inactive
+            <% end %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @client.respond_to?(:client_type) %>
+        <div class="detail-item">
+          <div class="detail-label">Client Type</div>
+          <div class="detail-value">
+            <%= @client.client_type&.humanize || 'N/A' %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @client.respond_to?(:address) && @client.address.present? %>
+        <div class="detail-item full-width">
+          <div class="detail-label">Address</div>
+          <div class="detail-value">
+            <%= simple_format(@client.address) %>
+          </div>
+        </div>
+        <% end %>
+
+        <div class="detail-item">
+          <div class="detail-label">Created</div>
+          <div class="detail-value">
+            <%= @client.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Last Updated</div>
+          <div class="detail-value">
+            <%= @client.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes Section (if available) -->
+    <% if @client.respond_to?(:notes) && @client.notes.present? %>
+    <div class="notes-section">
+      <div class="section-title">
+        📝 Notes
+      </div>
+      <p class="notes-text">
+        <%= simple_format(@client.notes) %>
+      </p>
+    </div>
+    <% end %>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <%= link_to "← Back to Clients", clients_path, class: "btn btn-secondary" %>
+    <%= link_to "✏️ Edit Client", edit_client_path(@client), class: "btn btn-warning" %>
+    <%= button_to "🗑️ Delete Client", @client,
+                  method: :delete,
+                  data: { confirm: "Are you sure you want to delete this client? This action cannot be undone." },
+                  class: "btn btn-danger" %>
+  </div>
 </div>

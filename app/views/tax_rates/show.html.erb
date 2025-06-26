@@ -1,10 +1,367 @@
+<% content_for :title, @tax_rate.name || "Tax Rate Details" %>
+
 <p style="color: green"><%= notice %></p>
 
-<%= render @tax_rate %>
+<style>
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    margin: 0;
+    padding: 1px;
+    min-height: 100vh;
+  }
 
-<div>
-  <%= link_to "Edit this tax rate", edit_tax_rate_path(@tax_rate) %> |
-  <%= link_to "Back to tax rates", tax_rates_path %>
+  .modern-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
 
-  <%= button_to "Destroy this tax rate", @tax_rate, method: :delete %>
+  .modern-header {
+    background: white;
+    padding: 30px 40px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .modern-header h2 {
+    color: #1f2937;
+    font-size: 28px;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .modern-content {
+    padding: 40px;
+  }
+
+  .tax-info-section {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .section-title {
+    color: #1f2937;
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #6b7280;
+  }
+
+  .empty-state h3 {
+    color: #374151;
+    margin-bottom: 8px;
+  }
+
+  .tax-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .detail-item {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    transition: all 0.2s ease;
+  }
+
+  .detail-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .detail-label {
+    font-size: 12px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .detail-value {
+    font-weight: 600;
+    color: #1f2937;
+    font-size: 18px;
+    word-break: break-word;
+  }
+
+  .detail-value.percentage {
+    color: #059669;
+    font-size: 24px;
+  }
+
+  .detail-value.currency {
+    color: #3b82f6;
+  }
+
+  .detail-value.status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .detail-value.status.active {
+    background: #d1fae5;
+    color: #059669;
+  }
+
+  .detail-value.status.inactive {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .btn-primary {
+    background: #3b82f6;
+    color: white;
+  }
+
+  .btn-primary:hover {
+    background: #2563eb;
+    color: white;
+  }
+
+  .btn-secondary {
+    background: #6b7280;
+    color: white;
+  }
+
+  .btn-secondary:hover {
+    background: #4b5563;
+    color: white;
+  }
+
+  .btn-warning {
+    background: #f59e0b;
+    color: white;
+  }
+
+  .btn-warning:hover {
+    background: #d97706;
+    color: white;
+  }
+
+  .btn-danger {
+    background: #ef4444;
+    color: white;
+  }
+
+  .btn-danger:hover {
+    background: #dc2626;
+    color: white;
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 30px 40px;
+    background: #f8fafc;
+    border-top: 1px solid #e5e7eb;
+    border-radius: 0 0 12px 12px;
+  }
+
+  .description-section {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 30px;
+    margin-bottom: 30px;
+  }
+
+  .description-text {
+    color: #374151;
+    line-height: 1.6;
+    font-size: 16px;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .modern-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .modern-content {
+      padding: 20px;
+    }
+
+    .tax-info-section,
+    .description-section {
+      padding: 20px;
+    }
+
+    .action-buttons {
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .action-buttons .btn {
+      width: 100%;
+      max-width: 300px;
+      justify-content: center;
+    }
+
+    .tax-details {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<div class="modern-container">
+  <div class="modern-header">
+    <h2>💰 Tax Rate Details</h2>
+  </div>
+
+  <div class="modern-content">
+    <!-- Tax Rate Information Section -->
+    <div class="tax-info-section">
+      <div class="section-title">
+        📋 Tax Rate Information
+      </div>
+      
+      <div class="tax-details">
+        <div class="detail-item">
+          <div class="detail-label">Name</div>
+          <div class="detail-value">
+            <%= @tax_rate.name || 'Unnamed Tax Rate' %>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Rate</div>
+          <div class="detail-value percentage">
+            <%= number_to_percentage(@tax_rate.rate || 0, precision: 2) %>
+          </div>
+        </div>
+
+        <% if @tax_rate.respond_to?(:code) %>
+        <div class="detail-item">
+          <div class="detail-label">Tax Code</div>
+          <div class="detail-value">
+            <%= @tax_rate.code || 'N/A' %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @tax_rate.respond_to?(:active) %>
+        <div class="detail-item">
+          <div class="detail-label">Status</div>
+          <div class="detail-value status <%= @tax_rate.active? ? 'active' : 'inactive' %>">
+            <% if @tax_rate.active? %>
+              ✅ Active
+            <% else %>
+              ❌ Inactive
+            <% end %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @tax_rate.respond_to?(:jurisdiction) %>
+        <div class="detail-item">
+          <div class="detail-label">Jurisdiction</div>
+          <div class="detail-value">
+            <%= @tax_rate.jurisdiction || 'N/A' %>
+          </div>
+        </div>
+        <% end %>
+
+        <% if @tax_rate.respond_to?(:effective_date) %>
+        <div class="detail-item">
+          <div class="detail-label">Effective Date</div>
+          <div class="detail-value">
+            <%= @tax_rate.effective_date&.strftime("%B %d, %Y") || 'N/A' %>
+          </div>
+        </div>
+        <% end %>
+
+        <div class="detail-item">
+          <div class="detail-label">Created</div>
+          <div class="detail-value">
+            <%= @tax_rate.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-label">Last Updated</div>
+          <div class="detail-value">
+            <%= @tax_rate.updated_at.strftime("%B %d, %Y at %I:%M %p") %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description Section (if available) -->
+    <% if @tax_rate.respond_to?(:description) && @tax_rate.description.present? %>
+    <div class="description-section">
+      <div class="section-title">
+        📝 Description
+      </div>
+      <p class="description-text">
+        <%= simple_format(@tax_rate.description) %>
+      </p>
+    </div>
+    <% end %>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="action-buttons">
+    <%= link_to "← Back to Tax Rates", tax_rates_path, class: "btn btn-secondary" %>
+    <%= link_to "✏️ Edit Tax Rate", edit_tax_rate_path(@tax_rate), class: "btn btn-warning" %>
+    <%= button_to "🗑️ Delete Tax Rate", @tax_rate,
+                  method: :delete,
+                  data: { confirm: "Are you sure you want to delete this tax rate? This action cannot be undone." },
+                  class: "btn btn-danger" %>
+  </div>
 </div>

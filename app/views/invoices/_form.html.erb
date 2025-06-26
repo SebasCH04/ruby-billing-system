@@ -7,7 +7,7 @@
   <% end %>
 
   <div class="mb-3">
-    <%= f.label :client_id, "Client:" %>
+    <%= f.label :client_id, "Client" %>
     <%= f.collection_select :client_id, Client.all, :id, :name, prompt: "Select a client", class: "form-select" %>
   </div>
 
@@ -16,13 +16,13 @@
       <%= f.hidden_field :number %>
     </div>
     <div class="col">
-      <%= f.label :issued_at, "Issue date:" %>
+      <%= f.label :issued_at, "Issue date" %>
       <%= f.date_field :issued_at, class: "form-control" %>
     </div>
   </div>
 
   <div class="mb-3">
-    <%= f.label :tax_rate_id, "Tax Rate:" %>
+    <%= f.label :tax_rate_id, "Tax Rate" %>
     <%= f.collection_select :tax_rate_id, TaxRate.all, :id, :name, prompt: "Select a tax rate", class: "form-select" %>
   </div>
 
@@ -31,10 +31,6 @@
     <%= f.fields_for :invoice_items do |item_form| %>
       <%= render 'invoice_item_fields', f: item_form %>
     <% end %>
-  </div>
-
-  <div>
-    <a href="#" id="add-line">Add line</a>
   </div>
 
   <div>
